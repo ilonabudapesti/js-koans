@@ -118,17 +118,18 @@ describe("About Applying What We Have Learnt", function() {
 		var largestPalindrome = function () {
 				
 			var largest = 1;
+			
 
 			for(var i=100; i < 1000; i++) {
 				for(var k=100; k < 1000; k++) {
-					if(isPalindrome(i*k)) largest = i*k;
+					if(isPalindrome(i*k) && (i*k) > largest) largest = i*k;
 				}
 			}
 		
 			return largest;
 		}
 		largestPalindrome();
-		//Result: 580085
+		//Result: 906609
   });
 
   it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
@@ -148,7 +149,7 @@ describe("About Applying What We Have Learnt", function() {
 			
 			return i;
 		}
-		findSmallestCompositeForIntegersUpTo(20);
+		//findSmallestCompositeForIntegersUpTo(20);
 		//Result: 232792560
 		
 		
@@ -168,7 +169,7 @@ describe("About Applying What We Have Learnt", function() {
 			
 			return num * multiple;
 		}
-		findSmallestCompositeFast(20);
+		//findSmallestCompositeFast(20);
 		//Result: 232792560
   });
 
@@ -200,7 +201,7 @@ describe("About Applying What We Have Learnt", function() {
 			return i;
 		}
 		
-		findPrimeNumber(10001);
+		//findPrimeNumber(10001);
 		//Result: 104743
 		//This is really slow. I'll try to think of an improvement...
   });
