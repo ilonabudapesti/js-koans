@@ -32,7 +32,7 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(productsICanEat.length).toBe(FILL_ME_IN);
+    expect(productsICanEat.length).toBe(1);
   });
 
   it("given I'm allergic to nuts and hate mushrooms, it should find a pizza I can eat (functional)", function () {
@@ -40,8 +40,15 @@ describe("About Applying What We Have Learnt", function() {
       var productsICanEat = [];
 
       /* solve using filter() & all() / any() */
+      var nutFree = function(x) { return x.containsNuts === false };
+      
+      var hasMushrooms = function(y) { return y === "mushrooms" };
+      
+      var mushroomFree = function(z) { return _(z.ingredients).any(hasMushrooms) === false };
+      
+      productsICanEat = _(products).filter(function (product) { return nutFree(product) && mushroomFree(product) });
 
-      expect(productsICanEat.length).toBe(FILL_ME_IN);
+      expect(productsICanEat.length).toBe(1);
   });
 
   /*********************************************************************************/
@@ -55,14 +62,18 @@ describe("About Applying What We Have Learnt", function() {
       }
     }
 
-    expect(sum).toBe(FILL_ME_IN);
+    expect(sum).toBe(233168);
   });
 
   it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (functional)", function () {
 
-    var sum = FILL_ME_IN;    /* try chaining range() and reduce() */
+    var sum = _( [ _.range(0,1000,3), _.range(0,1000,5) ] ).chain()
+                       .flatten()
+                       .uniq()
+                       .reduce(function (item, x) { return item + x })
+                       .value();    /* try chaining range() and reduce() */
 
-    expect(233168).toBe(FILL_ME_IN);
+    expect(233168).toBe(sum);
   });
 
   /*********************************************************************************/
@@ -75,39 +86,131 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   it("should count the ingredient occurrence (functional)", function () {
     var ingredientCount = { "{ingredient name}": 0 };
 
     /* chain() together map(), flatten() and reduce() */
-
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    var productList = _( products ).chain()
+                       .map(function(x) { return x.ingredients })
+                       .flatten()
+                       .each(function(item) { 
+                       		if(ingredientCount[item] === undefined) ingredientCount[item] = 1;
+                       		else ingredientCount[item] += 1;
+                       		
+                       		return item; 
+                       });
+    //Couldn't figure out how reduce would be used here.
+    
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
-  /*********************************************************************************/
-  /* UNCOMMENT FOR EXTRA CREDIT */
-  /*
-  it("should find the largest prime factor of a composite number", function () {
 
+  it("should find the largest prime factor of a composite number", function () {
+		var findLargestPrimeFactor = function (composite) {
+			var largest = 1;
+			for(var i = 2; i < composite; i++){
+				if( composite % i === 0 ) largest = i;
+			}
+			return largest;
+		}
   });
 
   it("should find the largest palindrome made from the product of two 3 digit numbers", function () {
+		var isPalindrome = function (num) {
+			return num.toString() === (num.toString()).split('').reverse().join('');
+		}
+		
+		var largestPalindrome = function () {
+				
+			var largest = 1;
+			
 
+			for(var i=100; i < 1000; i++) {
+				for(var k=100; k < 1000; k++) {
+					if(isPalindrome(i*k) && (i*k) > largest) largest = i*k;
+				}
+			}
+		
+			return largest;
+		}
+		//largestPalindrome();
+		//Result: 906609
   });
 
   it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
-
-
+		//Brute force method:
+		var findSmallestCompositeForIntegersUpTo = function(num){
+			var notFound = true;
+			var i = num - 1;
+			
+			mainloop:
+			while(notFound){
+				i++;
+				for(var k = 1; k <= num; k++){
+					if(i % k !== 0) continue mainloop;
+				}
+				notFound = false;
+			}
+			
+			return i;
+		}
+		//findSmallestCompositeForIntegersUpTo(20);
+		//Result: 232792560
+		
+		
+		//Much faster method:
+		var findSmallestCompositeFast = function(num){
+			var notFound = true;
+			var multiple = 1;
+			
+			mainloop:
+			while(notFound){
+				multiple++;
+				for(var k = 1; k <= num; k++){
+					if( (num * multiple) % k !== 0) continue mainloop;
+				}
+				notFound = false;
+			}
+			
+			return num * multiple;
+		}
+		//findSmallestCompositeFast(20);
+		//Result: 232792560
   });
 
   it("should find the difference between the sum of the squares and the square of the sums", function () {
-
+		var differenceOfSquares = function (x,y){
+			return (Math.pow(x, 2) + Math.pow(y, 2)) - Math.pow(x+y, 2);
+		}
+		//Example: differenceOfSquares(4,5); Not sure if I was supposed to do something more with this...
   });
 
   it("should find the 10001st prime", function () {
-
+		var findLargestPrimeFactor = function (composite) {
+			var largest = 1;
+			for(var i = 2; i < composite; i++){
+				if( composite % i === 0 ) largest = i;
+			}
+			return largest;
+		}
+		
+		var findPrimeNumber = function (num) {
+			var primeCount = 0;
+			var i = 0;
+			
+			while (primeCount <= num) {
+				i++;
+				if(findLargestPrimeFactor(i) === 1) primeCount++;
+			}
+			
+			return i;
+		}
+		
+		//findPrimeNumber(10001);
+		//Result: 104743
+		//This is really slow. I'll try to think of an improvement...
   });
-  */
 });
