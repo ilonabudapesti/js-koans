@@ -93,8 +93,16 @@ describe("About Applying What We Have Learnt", function() {
     var ingredientCount = { "{ingredient name}": 0 };
 
     /* chain() together map(), flatten() and reduce() */
-    ingredientCount['mushrooms'] = 2;
-    //TOTAL FAIL!! Couldn't figure this one out for the life of me, so I cheated.
+    var productList = _( products ).chain()
+                       .map(function(x) { return x.ingredients })
+                       .flatten()
+                       .each(function(item) { 
+                       		if(ingredientCount[item] === undefined) ingredientCount[item] = 1;
+                       		else ingredientCount[item] += 1;
+                       		
+                       		return item; 
+                       });
+    //Couldn't figure out how reduce would be used here.
     
     expect(ingredientCount['mushrooms']).toBe(2);
   });
@@ -128,7 +136,7 @@ describe("About Applying What We Have Learnt", function() {
 		
 			return largest;
 		}
-		largestPalindrome();
+		//largestPalindrome();
 		//Result: 906609
   });
 
