@@ -118,16 +118,48 @@ describe("About Applying What We Have Learnt", function() {
   
   it("should find the largest prime factor of a composite number", function () {
 
-    function (compositeNumber) {
-
+    function largestPrimeFactor (inputNumber) {
+      var testNumber = inputNumber;
+      while (testNumber > 1) {
+        testNumber --;
+        if (inputNumber % testNumber === 0) {
+          // it's a factor! but is it prime?
+          for (var i = testNumber - 1; i > 1; i--) {
+            if (testNumber % i === 0) break; // not prime
+            if (i === 2) return testNumber; // the answer!
+          }
+        }
+      }
+      return 'Invalid input. Composite numbers only.';
     }
+    
+    expect(largestPrimeFactor(12345)).toBe(823);
 
-    expect(answer).toBe(FILL_ME_IN);
   });
 
   it("should find the largest palindrome made from the product of two 3 digit numbers", function () {
 
-    expect(answer).toBe(FILL_ME_IN);
+    function largestPalindrome () {
+      var palindromes = [];
+
+      for (var i = 999; i > 900; i--) {
+        findPalindromesForMultiplier(i);
+      }
+
+      function findPalindromesForMultiplier (staticMultiplier) {
+        for (var n = 999; n > 900; n--) {
+          if ( isPalindrome(staticMultiplier * n) ) palindromes.push(staticMultiplier * n);
+        }
+      }
+
+      function isPalindrome (inputNumber) {
+        return inputNumber === parseInt( inputNumber.toString().split('').reverse().join('') );
+      }
+
+      return Math.max.apply(Math, palindromes);
+    }
+
+    expect( largestPalindrome() ).toBe(906609);
   });
 
   it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
