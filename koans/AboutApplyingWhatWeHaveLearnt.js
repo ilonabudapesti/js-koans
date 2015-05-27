@@ -204,7 +204,24 @@ describe("About Applying What We Have Learnt", function() {
 
   it("should find the 10001st prime", function () {
 
-    expect(answer).toBe(FILL_ME_IN);
+    function find10001stPrime () {    // also slow! now spends much time contemplating naval...
+      primes = [];
+      checkIfPrime = 2; 
+      while ( ! primes[10000] ) {
+        if ( isPrime(checkIfPrime) ) primes.push(checkIfPrime);
+        checkIfPrime ++;
+      }
+      return primes[10000];
+    }
+
+    function isPrime (inputNumber) {
+      for (var i = inputNumber - 1; i > 1; i--) {
+        if (inputNumber % i === 0) return false; // not prime
+      }
+      return true;
+    }
+
+    expect( find10001stPrime() ).toBe( 104743 );
   });
   
 });
