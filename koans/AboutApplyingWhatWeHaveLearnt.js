@@ -176,6 +176,7 @@ describe("About Applying What We Have Learnt", function() {
           if (inputNumber % i !== 0) return false;
         }
         return true;
+
       }
     }
 
@@ -184,7 +185,21 @@ describe("About Applying What We Have Learnt", function() {
 
   it("should find the difference between the sum of the squares and the square of the sums", function () {
 
-    expect(answer).toBe(FILL_ME_IN);
+    function differenceBetweenSummedSquaresAndSquaredSums (inputArray) {
+
+      var summedSquares = _(inputArray).chain()
+        .map( function (num) { return Math.pow(num, 2); } )
+        .reduce( function (memo, num) { return memo + num; } )
+        .value()
+
+      // tried to use a .chain() for readability below, but could not find a way to continue it after the reduce()
+      var squaredSums = Math.pow(  _(inputArray).reduce( function (memo, num) { return memo + num; } ), 2 );
+      
+      return Math.abs( squaredSums - summedSquares );
+     
+    }
+
+    expect( differenceBetweenSummedSquaresAndSquaredSums( _.range(1,11) ) ).toBe( 2640 );
   });
 
   it("should find the 10001st prime", function () {
