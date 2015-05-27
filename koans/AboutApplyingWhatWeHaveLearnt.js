@@ -20,11 +20,11 @@ describe("About Applying What We Have Learnt", function() {
 
     var i,j,hasMushrooms, productsICanEat = [];
 
-    for (i = 0; i < products.length; i+=1) {
+    for (i = 0; i < products.length; i+=1) {                          // missing var here! why? seems like bad practice
         if (products[i].containsNuts === false) {
             hasMushrooms = false;
-            for (j = 0; j < products[i].ingredients.length; j+=1) {
-               if (products[i].ingredients[j] === "mushrooms") {
+            for (j = 0; j < products[i].ingredients.length; j+=1) {   // missing here too...
+               if (products[i].ingredients[j] === "mushrooms") { 
                   hasMushrooms = true;
                }
             }
@@ -90,8 +90,8 @@ describe("About Applying What We Have Learnt", function() {
    it("should count the ingredient occurrence (imperative)", function () {
     var ingredientCount = { "{ingredient name}": 0 };
 
-    for (i = 0; i < products.length; i+=1) {
-        for (j = 0; j < products[i].ingredients.length; j+=1) {
+    for (i = 0; i < products.length; i+=1) {                          // missing var...
+        for (j = 0; j < products[i].ingredients.length; j+=1) {       // missing var...
             ingredientCount[products[i].ingredients[j]] = (ingredientCount[products[i].ingredients[j]] || 0) + 1;
         }
     }
@@ -109,8 +109,11 @@ describe("About Applying What We Have Learnt", function() {
       .flatten()
       .reduce( function (mem,v,k,ar) { ingredientCount[v] = (ingredientCount[v] || 0) + 1 } )
 
-    expect(ingredientCount['mushrooms']).toBe(2);
+      // from what I understand, this is a terrible use of reduce (causing side effects), but I 
+      // couldn't figure out a direct solution, and the code provides us with ingredientCount,
+      // which seems to suggest it's seeking an answer like the one I've provided.
 
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   /*********************************************************************************/
@@ -134,7 +137,6 @@ describe("About Applying What We Have Learnt", function() {
     }
     
     expect(largestPrimeFactor(12345)).toBe(823);
-
   });
 
   it("should find the largest palindrome made from the product of two 3 digit numbers", function () {
@@ -142,9 +144,9 @@ describe("About Applying What We Have Learnt", function() {
     function largestPalindrome () {
       var palindromes = [];
 
-      for (var i = 999; i > 900; i--) {
-        findPalindromesForMultiplier(i);
-      }
+      for (var i = 999; i > 900; i--) {     // did I make it any clearer this way? or should
+        findPalindromesForMultiplier(i);    // I have just nested for loops... hrmm...
+      }                                     
 
       function findPalindromesForMultiplier (staticMultiplier) {
         for (var n = 999; n > 900; n--) {
@@ -163,8 +165,21 @@ describe("About Applying What We Have Learnt", function() {
   });
 
   it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
+    
+    function smallestNumberDivisible() {    // slow! causes koans page to lag :(
+      for (var num = 21; ; num ++) {
+        if ( isDivisible(num) ) return num;
+      }
 
-    expect(answer).toBe(FILL_ME_IN);
+      function isDivisible (inputNumber) {
+        for (var i = 1; i <= 20; i++) {
+          if (inputNumber % i !== 0) return false;
+        }
+        return true;
+      }
+    }
+
+    expect( smallestNumberDivisible() ).toBe( 232792560 );
   });
 
   it("should find the difference between the sum of the squares and the square of the sums", function () {
