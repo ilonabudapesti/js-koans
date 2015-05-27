@@ -32,7 +32,7 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(productsICanEat.length).toBe(FILL_ME_IN);
+    expect(productsICanEat.length).toBe(1);
   });
 
   it("given I'm allergic to nuts and hate mushrooms, it should find a pizza I can eat (functional)", function () {
@@ -41,7 +41,22 @@ describe("About Applying What We Have Learnt", function() {
 
       /* solve using filter() & all() / any() */
 
-      expect(productsICanEat.length).toBe(FILL_ME_IN);
+      function noNuts (product) {
+        return product.containsNuts === false;
+      }
+
+      function noMushrooms (product) {
+        return _.all( product.ingredients, function (ingredient) {
+         return ingredient !== "mushrooms" }
+        )}
+
+      productsICanEat.push( _(products).chain()
+          .filter(noNuts)
+          .filter(noMushrooms)
+          .value()
+      )
+
+      expect(productsICanEat.length).toBe(1);
   });
 
   /*********************************************************************************/
@@ -55,14 +70,20 @@ describe("About Applying What We Have Learnt", function() {
       }
     }
 
-    expect(sum).toBe(FILL_ME_IN);
+    expect(sum).toBe(233168);
   });
 
   it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (functional)", function () {
 
-    var sum = FILL_ME_IN;    /* try chaining range() and reduce() */
+    /* try chaining range() and reduce() */
 
-    expect(233168).toBe(FILL_ME_IN);
+    var sum = _( _.range(1,1000) ).chain()                
+      .filter( function (val) { return val % 3 === 0 || val % 5 === 0 } )
+      .reduce( function (memo, val) { return memo + val } )
+      .value()
+      ;
+
+    expect(233168).toBe(sum);
   });
 
   /*********************************************************************************/
@@ -75,7 +96,7 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   it("should count the ingredient occurrence (functional)", function () {
@@ -83,31 +104,45 @@ describe("About Applying What We Have Learnt", function() {
 
     /* chain() together map(), flatten() and reduce() */
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    _(products).chain()
+      .map( function (v,k) { return products[k].ingredients } )
+      .flatten()
+      .reduce( function (mem,v,k,ar) { ingredientCount[v] = (ingredientCount[v] || 0) + 1 } )
+
+    expect(ingredientCount['mushrooms']).toBe(2);
+
   });
 
   /*********************************************************************************/
   /* UNCOMMENT FOR EXTRA CREDIT */
-  /*
+  
   it("should find the largest prime factor of a composite number", function () {
 
+    function (compositeNumber) {
+
+    }
+
+    expect(answer).toBe(FILL_ME_IN);
   });
 
   it("should find the largest palindrome made from the product of two 3 digit numbers", function () {
 
+    expect(answer).toBe(FILL_ME_IN);
   });
 
   it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
 
-
+    expect(answer).toBe(FILL_ME_IN);
   });
 
   it("should find the difference between the sum of the squares and the square of the sums", function () {
 
+    expect(answer).toBe(FILL_ME_IN);
   });
 
   it("should find the 10001st prime", function () {
 
+    expect(answer).toBe(FILL_ME_IN);
   });
-  */
+  
 });
